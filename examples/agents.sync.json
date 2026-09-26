@@ -1,0 +1,7 @@
+{
+  "packs": [
+    "base/general",
+    "tooling/git",
+    "tooling/testing"
+  ]
+}
