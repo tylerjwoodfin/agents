@@ -1,18 +1,26 @@
 # agents
 
-Shared AI coding instructions for project repositories.
+Reusable instructions for coding agents.
 
-Project-specific behavior stays in each repository's `AGENTS.md`. Reusable packs live here. `sync.sh` copies the packs a project selects into that project. Commit the copies. Agents then read the committed files. They do not clone this repo and they do not follow a live path to a checkout of it.
+This repo owns guidance that should still apply if the editor or agent runtime changes. [dotfiles](https://github.com/tylerjwoodfin/dotfiles) owns machine setup: Cursor and OpenClaw adapters, symlinks, shell config, and bootstrap scripts. Adapters may point here. They do not keep a second copy of the instruction text.
 
-Cursor skills and rules still live in [dotfiles](https://github.com/tylerjwoodfin/dotfiles) and are symlinked onto a machine. This repo is the part that must travel inside each project.
+```text
+agents
+   ↓
+dotfiles installs/adapts
+   ↓
+Cursor / OpenClaw / other local tools
+```
+
+Project-specific behavior stays in each repository's `AGENTS.md`.
 
 ## Layout
 
 ```text
-base/            behavior that applies to any project
+common/          behavior that applies to any task
 languages/       python, javascript, bash
 frameworks/      react
-tooling/         git, testing, docker, cabinet
+tools/           git, testing, docker, cabinet, and local workflows
 examples/        sample agents.sync.json
 sync.sh          write committed copies into a project
 ```
@@ -26,10 +34,10 @@ From the project root, add `agents.sync.json` (start from `examples/agents.sync.
 ```json
 {
   "packs": [
-    "base/general",
+    "common/general",
     "languages/python",
-    "tooling/git",
-    "tooling/testing"
+    "tools/git",
+    "tools/testing"
   ]
 }
 ```
@@ -58,9 +66,11 @@ An existing `AGENTS.md` is left in place. Only the block between `<!-- agents-sy
 
 The agents checkout must be clean. The version recorded in the copies is `git rev-parse HEAD`. Commit pack edits here before syncing them out. `--allow-dirty` records `<sha>-dirty` and is for local experiments.
 
+Committed copies are what an agent reads inside that project. Do not clone this repo or follow a live path to it during that work. Cursor and OpenClaw on a machine are different: their adapters in dotfiles read this checkout directly.
+
 ## Adding a pack
 
-1. Add `category/name.md` under `base/`, `languages/`, `frameworks/`, or `tooling/`.
+1. Add `category/name.md` under `common/`, `languages/`, `frameworks/`, or `tools/`.
 2. Keep project facts, secrets, and host inventories out of packs. Those belong in the project `AGENTS.md`.
 3. Run `bash tests/sync_test.sh`.
 4. In each project that should receive it, add the pack id to `agents.sync.json` and re-run `sync.sh`.
