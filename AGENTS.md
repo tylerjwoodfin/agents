@@ -4,7 +4,7 @@ This repository is the source for shared instruction packs. Project repositories
 
 ## Editing
 
-- Put reusable instructions in `base/`, `languages/`, `frameworks/`, or `tooling/`. One pack is one markdown file, one directory deep (`tooling/git.md`).
+- Put reusable instructions in `common/`, `languages/`, `frameworks/`, or `tools/`. One pack is one markdown file, one directory deep (`tools/git.md`).
 - Do not put project-specific facts, secrets, or host inventories in a pack.
 - Do not sync this repository into itself.
 
